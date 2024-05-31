@@ -1,7 +1,31 @@
-import { Box, Container, Flex, HStack, Link, Text, VStack, Spacer, Heading, SimpleGrid } from "@chakra-ui/react";
+import { useState } from 'react';
+import { Box, Container, Flex, HStack, Link, Text, VStack, Spacer, Heading, SimpleGrid, Input, Button, FormControl, FormLabel, FormHelperText } from "@chakra-ui/react";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
 const Index = () => {
+  const [postData, setPostData] = useState({
+    title: '',
+    content: '',
+  });
+
+  const handleTitleChange = (e) => {
+    setPostData({ ...postData, title: e.target.value });
+  };
+
+  const handleContentChange = (e) => {
+    setPostData({ ...postData, content: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!postData.title || !postData.content) {
+      // Implement form validation logic here
+      return;
+    }
+    // Logic to submit the post data (redirect logic can be added here)
+    console.log('Post submitted successfully');
+  };
+
   return (
     <Container maxW="container.xl" p={0}>
       {/* Navigation Bar */}
@@ -36,6 +60,22 @@ const Index = () => {
           </Box>
           {/* Add more categories as needed */}
         </SimpleGrid>
+      </Box>
+
+      {/* Post Creation Form */}
+      <Box p={8}>
+        <Heading as="h2" size="lg" mb={4}>Create New Post</Heading>
+        <FormControl id="title" isRequired>
+          <FormLabel>Title</FormLabel>
+          <Input value={postData.title} onChange={handleTitleChange} />
+          <FormHelperText>Title is required</FormHelperText>
+        </FormControl>
+        <FormControl id="content" isRequired>
+          <FormLabel>Content</FormLabel>
+          <Input value={postData.content} onChange={handleContentChange} />
+          <FormHelperText>Content is required</FormHelperText>
+        </FormControl>
+        <Button type="submit" mt={4} onClick={handleSubmit}>Create Post</Button>
       </Box>
 
       {/* Footer */}
